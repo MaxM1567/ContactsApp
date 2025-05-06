@@ -3,7 +3,6 @@ package com.example.phonecontacts
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +15,7 @@ class MainActivity : ComponentActivity() {
         if (permissions.all { it.value }) {
             showContactList()
         } else {
-            Toast.makeText(this, "Необходимые разрешения не были получены!", Toast.LENGTH_LONG).show()
+            showPermissionNotReceived()
         }
     }
 
@@ -38,6 +37,7 @@ class MainActivity : ComponentActivity() {
         if (hasAllPermissions) {
             showContactList()
         } else {
+            showPermissionNotReceived()
             permissionLauncher.launch(requiredPermissions)
         }
     }
@@ -45,6 +45,12 @@ class MainActivity : ComponentActivity() {
     private fun showContactList() {
         setContent {
             ContactListScreen(this)
+        }
+    }
+
+    private fun showPermissionNotReceived() {
+        setContent {
+            PermissionNotReceivedScreen()
         }
     }
 }
